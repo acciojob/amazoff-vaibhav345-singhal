@@ -1,23 +1,23 @@
 package com.driver;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.driver.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class OrderService {
-
-    @Autowired
-    OrderRepository orderRepository;
+    //@Autowired
+    OrderRepository orderRepository = new OrderRepository();
 
     public void addOrder(Order order) {
         orderRepository.addOrder(order);
     }
 
-    public void addPartner(DeliveryPartner partner) {
-        orderRepository.addPartner(partner);
+    public void addPartner(String partnerId) {
+        orderRepository.addPartner(partnerId);
     }
+
 
     public void addOrderPartnerPair(String orderId, String partnerId) {
         orderRepository.addOrderPartnerPair(orderId, partnerId);
@@ -26,6 +26,7 @@ public class OrderService {
     public Order getOrderById(String orderId) {
         return orderRepository.getOrderById(orderId);
     }
+
 
     public DeliveryPartner getPartnerById(String partnerId) {
         return orderRepository.getPartnerById(partnerId);
@@ -47,6 +48,14 @@ public class OrderService {
         return orderRepository.getCountOfUnassignedOrders();
     }
 
+    public Integer getOrdersLeftAfterGivenTimeByPartnerId(String time, String partnerId) {
+        return orderRepository.getOrdersLeftAfterGivenTimeByPartnerId(time, partnerId);
+    }
+
+    public String getLastDeliveryTimeByPartnerId(String partnerId) {
+        return orderRepository.getLastDeliveryTimeByPartnerId(partnerId);
+    }
+
     public void deletePartnerById(String partnerId) {
         orderRepository.deletePartnerById(partnerId);
     }
@@ -55,11 +64,5 @@ public class OrderService {
         orderRepository.deleteOrderById(orderId);
     }
 
-    public Integer getOrdersLeftAfterGivenTimeByPartnerId(String time, String partnerId) {
-        return orderRepository.getOrdersLeftAfterGivenTimeByPartnerId(time, partnerId);
-    }
 
-    public String getLastDeliveryTimeByPartnerId(String partnerId) {
-        return orderRepository.getLastDeliveryTimeByPartnerId(partnerId);
-    }
 }
