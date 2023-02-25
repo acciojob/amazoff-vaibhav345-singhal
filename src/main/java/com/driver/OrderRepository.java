@@ -33,13 +33,15 @@ public class OrderRepository {
     public void addOrderPartnerPair(String orderId, String partnerId) {
         List<String> list;
         if (orderHashMap.containsKey(orderId) && partnerHashMap.containsKey(partnerId)) {
-            list = orderPartner.get(partnerId);
-        } else {
-            list = new ArrayList<>();
+            if (orderPartner.containsKey(partnerId)) {
+                list = orderPartner.get(partnerId);
+            } else {
+                list = new ArrayList<>();
+            }
+            list.add(orderId);
+            unAssignMap.remove(orderId);
+            orderPartner.put(partnerId, list);
         }
-        list.add(orderId);
-        unAssignMap.remove(orderId);
-        orderPartner.put(partnerId, list);
     }
 
     public Order getOrderById(String orderId) {
@@ -114,12 +116,16 @@ public class OrderRepository {
 
     public String getLastDeliveryTimeByPartnerId(String partnerId) {
         List<String> list = orderPartner.get(partnerId);
-        int LastOid = Integer.MIN_VALUE;
+        int lastTime = Integer.MIN_VALUE;
+        String order = "";
 
         for (String oid : list) {
-            LastOid = Math.max(LastOid, orderHashMap.get(oid).getDeliveryTime());
+            if (orderHashMap.get(oid).getDeliveryTime() > lastTime) {
+                lastTime = Math.max(lastTime, orderHashMap.get(oid).getDeliveryTime());
+                order = oid;
+            }
         }
 
-        return orderHashMap.get(LastOid).getOriginalTime();
+        return orderHashMap.get(order).getOriginalTime();
     }
 }
