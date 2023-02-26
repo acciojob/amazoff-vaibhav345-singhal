@@ -41,6 +41,9 @@ public class OrderRepository {
             list.add(orderId);
             unAssignMap.remove(orderId);
             orderPartner.put(partnerId, list);
+            int numberOfOrders = partnerHashMap.get(partnerId).getNumberOfOrders() + 1;
+            partnerHashMap.get(partnerId).setNumberOfOrders(numberOfOrders);
+
         }
     }
 
