@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/orders")
 public class OrderController {
 
-
+    // Autowired not working in this assignment
     OrderService orderService = new OrderService();
 
     @PostMapping("/add-order")
