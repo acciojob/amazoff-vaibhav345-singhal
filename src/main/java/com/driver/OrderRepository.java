@@ -128,7 +128,6 @@ public class OrderRepository {
                 order = oid;
             }
         }
-
         return orderHashMap.get(order).getOriginalTime();
     }
 }
